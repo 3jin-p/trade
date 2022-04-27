@@ -30,7 +30,7 @@ class Trade(
     }
 
     init {
-        registerEvent(TradeEvent.TradeOpenEvent(id, payPointId, type, amount))
+//        registerEvent(TradeEvent.TradeOpenEvent(id, payPointId, type, amount))
     }
 
     fun success() {

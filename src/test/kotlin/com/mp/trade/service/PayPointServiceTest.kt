@@ -36,7 +36,7 @@ internal class PayPointServiceTest {
         val payPoint = PayPoint(Point(3500))
         payPoint.id = payPointId
 
-        Mockito.`when`(payPointRepository.findById(payPointId)).thenReturn(Optional.of(payPoint))
+        Mockito.`when`(payPointRepository.findByIdForUpdate(payPointId)).thenReturn(Optional.of(payPoint))
 
         // given
         val request = PayPointRequest.DepositRequest(tradeId, payPointId, Point(10000))
@@ -58,7 +58,7 @@ internal class PayPointServiceTest {
         payPoint.id = payPointId
 
         // fail factor
-        Mockito.`when`(payPointRepository.findById(payPointId)).thenReturn(null)
+        Mockito.`when`(payPointRepository.findByIdForUpdate(payPointId)).thenReturn(null)
 
         // given
         val request = PayPointRequest.DepositRequest(tradeId, payPointId, Point(10000))

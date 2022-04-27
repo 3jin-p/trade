@@ -11,7 +11,7 @@ import javax.persistence.Id
 @Entity
 class PayPoint(
     @Embedded
-    var amount: Point
+    var amount: Point = Point(0)
 ): AbstractAggregateRoot<PayPoint>() {
     @Id
     @Column(columnDefinition = "BINARY(16)")

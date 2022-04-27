@@ -3,6 +3,7 @@ package com.mp.trade.service
 import com.mp.trade.domain.Trade
 import com.mp.trade.dto.PayPointRequest
 import com.mp.trade.event.TradeEvent
+import org.springframework.scheduling.annotation.Async
 import org.springframework.stereotype.Component
 import org.springframework.transaction.event.TransactionPhase
 import org.springframework.transaction.event.TransactionalEventListener
@@ -11,7 +12,7 @@ import org.springframework.transaction.event.TransactionalEventListener
 class TradeEventAdaptor(
     val payPointService: PayPointService
 ) {
-
+    @Async
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     fun listen(event: TradeEvent.TradeOpenEvent) {
         if (event.type == Trade.TradeType.DEPOSIT) {

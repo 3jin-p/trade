@@ -4,7 +4,7 @@ import javax.persistence.Embeddable
 
 @Embeddable
 data class Point(
-    val point: Int
+    val point: Long
 ) {
 
     fun add(point: Point): Point {

@@ -6,8 +6,8 @@ import com.mp.trade.dto.TradeResponse
 import com.mp.trade.exception.EntityNotFoundException
 import com.mp.trade.repo.TradeRepository
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import java.util.UUID
-import javax.transaction.Transactional
 
 @Service
 class TradeService(
