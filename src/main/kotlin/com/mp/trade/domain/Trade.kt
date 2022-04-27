@@ -32,4 +32,12 @@ class Trade(
     init {
         registerEvent(TradeEvent.TradeOpenEvent(id, payPointId, type, amount))
     }
+
+    fun success() {
+        status = TradeStatus.SUCCESS
+    }
+
+    fun fail() {
+        status = TradeStatus.FAIL
+    }
 }

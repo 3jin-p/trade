@@ -14,4 +14,5 @@ data class Point(
     fun minus(point: Point): Point {
         return Point(this.point - point.point);
     }
+
 }

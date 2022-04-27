@@ -15,7 +15,6 @@ import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.junit.jupiter.MockitoExtension
-import java.util.*
 
 @ExtendWith(value = [MockitoExtension::class])
 internal class TradeServiceTest(
@@ -36,7 +35,7 @@ internal class TradeServiceTest(
             }
 
         // when
-        val tradeResponse = tradeService.trade(given)
+        val tradeResponse = tradeService.openTrade(given)
 
         // then
         assertAll(
