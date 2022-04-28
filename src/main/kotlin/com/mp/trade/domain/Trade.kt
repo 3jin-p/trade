@@ -21,6 +21,8 @@ class Trade(
     @Enumerated(value = EnumType.STRING)
     var status: TradeStatus = TradeStatus.IN_PROGRESS
 
+    var failReason: String? = null
+
     enum class TradeType {
         WITHDRAWL, DEPOSIT
     }
@@ -33,7 +35,8 @@ class Trade(
         status = TradeStatus.SUCCESS
     }
 
-    fun fail() {
+    fun fail(reason: String?) {
         status = TradeStatus.FAIL
+        this.failReason = reason
     }
 }

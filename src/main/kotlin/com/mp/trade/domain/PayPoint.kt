@@ -21,8 +21,11 @@ class PayPoint(
         amount = amount.add(point)
     }
 
-    fun minusPoint(tradeId: UUID, point: Point) {
-        amount.minus(point)
+    fun minusPoint(point: Point) {
+        if (amount.lessThan(point)) {
+            throw IllegalArgumentException("포인트가 부족합니다.")
+        }
+        amount = amount.minus(point)
     }
 
 }

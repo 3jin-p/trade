@@ -24,15 +24,27 @@ class PayPointService(
 
     @Transactional
     fun deposit(request: PayPointRequest.DepositRequest) {
-
         try {
             // ... 결제 처리 로직 (외부 API 일것이니 transaction 제외 -> 트랜잭션 템플릿 사용할까?
-            val payPoint = payPointRepository.findByIdForUpdate(request.payPointId).orElseThrow { EntityNotFoundException() } // ToDo locking 처리 후 멀티스레딩 테스트
+            val payPoint = payPointRepository.findByIdForUpdate(request.payPointId).orElseThrow { EntityNotFoundException() }
             payPoint.addPoint(request.amount)
-            eventPublisher.publishEvent(PayPointEvent.PayDepositProcessEvent(payPoint.id, request.tradeId, true))
+            eventPublisher.publishEvent(PayPointEvent.PayDepositProcessEvent.success(payPoint.id, request.tradeId))
 
         } catch (e: Exception) {
-            eventPublisher.publishEvent(PayPointEvent.PayDepositProcessEvent(request.payPointId, request.tradeId,false))
+            eventPublisher.publishEvent(PayPointEvent.PayDepositProcessEvent.fail(request.payPointId, request.tradeId, e.message))
+        }
+    }
+
+    @Transactional
+    fun withdrawal(request: PayPointRequest.WithdrawalRequest) {
+        try {
+            // ... 결제 처리 로직 (외부 API 일것이니 transaction 제외 -> 트랜잭션 템플릿 사용할까?
+            val payPoint = payPointRepository.findByIdForUpdate(request.payPointId).orElseThrow { EntityNotFoundException() }
+            payPoint.minusPoint(request.amount)
+            eventPublisher.publishEvent(PayPointEvent.PayDepositProcessEvent.success(payPoint.id, request.tradeId))
+
+        } catch (e: Exception) {
+            eventPublisher.publishEvent(PayPointEvent.PayDepositProcessEvent.fail(request.payPointId, request.tradeId, e.message))
         }
     }
 }

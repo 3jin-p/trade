@@ -23,13 +23,13 @@ class TradeService(
         return TradeResponse.from(tradeRepository.save(trade))
     }
 
-    fun processResult(tradeId: UUID, result: Boolean) {
+    fun processResult(tradeId: UUID, result: Boolean, failReason: String?) {
         val trade = tradeRepository.findById(tradeId).orElseThrow { EntityNotFoundException() }
 
         if (result) {
             trade.success()
         } else {
-            trade.fail()
+            trade.fail(failReason)
         }
     }
 }

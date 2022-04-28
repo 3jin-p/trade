@@ -17,6 +17,8 @@ class TradeEventAdaptor(
     fun listen(event: TradeEvent.TradeOpenEvent) {
         if (event.type == Trade.TradeType.DEPOSIT) {
             payPointService.deposit(PayPointRequest.DepositRequest(event.id, event.pointId, event.amount))
+        } else if (event.type == Trade.TradeType.WITHDRAWL) {
+            payPointService.withdrawal(PayPointRequest.WithdrawalRequest(event.id, event.pointId, event.amount))
         }
     }
 }

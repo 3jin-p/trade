@@ -70,4 +70,46 @@ internal class PayPointServiceTest {
         assertThat(payPoint.amount).isEqualTo(Point(3500))
         Mockito.verify(eventPublisher).publishEvent(PayPointEvent.PayDepositProcessEvent(payPointId, tradeId, false))
     }
+
+    @Test
+    fun withdrawal() {
+        val tradeId = UUID.fromString("a459313e-c610-11ec-9d64-0242ac120002")
+        val payPointId = UUID.fromString("c0ecc950-c610-11ec-9d64-0242ac120002")
+
+        val payPoint = PayPoint(Point(15000))
+        payPoint.id = payPointId
+
+        Mockito.`when`(payPointRepository.findByIdForUpdate(payPointId)).thenReturn(Optional.of(payPoint))
+
+        // given
+        val request = PayPointRequest.WithdrawalRequest(tradeId, payPointId, Point(10000))
+
+        //when
+        payPointService.withdrawal(request)
+
+        //then
+        assertThat(payPoint.amount).isEqualTo(Point(5000))
+        Mockito.verify(eventPublisher).publishEvent(PayPointEvent.PayDepositProcessEvent(payPointId, tradeId, true))
+    }
+
+    @Test
+    fun withdrawal_requestPointOverThanCurrent_ShouldPublishFailEvent() {
+        val tradeId = UUID.fromString("a459313e-c610-11ec-9d64-0242ac120002")
+        val payPointId = UUID.fromString("c0ecc950-c610-11ec-9d64-0242ac120002")
+
+        val payPoint = PayPoint(Point(5000))
+        payPoint.id = payPointId
+
+        Mockito.`when`(payPointRepository.findByIdForUpdate(payPointId)).thenReturn(Optional.of(payPoint))
+
+        // given
+        val request = PayPointRequest.WithdrawalRequest(tradeId, payPointId, Point(20000))
+
+        //when
+        payPointService.withdrawal(request)
+
+        //then
+        assertThat(payPoint.amount).isEqualTo(Point(5000))
+        Mockito.verify(eventPublisher).publishEvent(PayPointEvent.PayDepositProcessEvent.fail(payPointId, tradeId, "포인트가 부족합니다."))
+    }
 }

@@ -16,7 +16,8 @@ class TradeTest {
 
     @Test
     fun fail() {
-        depositTrade.fail()
+        depositTrade.fail("카드사 점검")
         assertThat(depositTrade.status).isEqualTo(Trade.TradeStatus.FAIL)
+        assertThat(depositTrade.failReason).isEqualTo("카드사 점검")
     }
 }

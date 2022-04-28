@@ -10,4 +10,10 @@ class PayPointRequest {
         val payPointId: UUID,
         val amount: Point
     )
+
+    data class WithdrawalRequest(
+        val tradeId: UUID,
+        val payPointId: UUID,
+        val amount: Point
+    )
 }

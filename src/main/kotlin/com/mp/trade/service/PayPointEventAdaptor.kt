@@ -12,6 +12,6 @@ class PayPointEventAdaptor(
 
     @TransactionalEventListener(phase = TransactionPhase.BEFORE_COMMIT)
     fun listen(event: PayPointEvent.PayDepositProcessEvent) {
-        tradeService.processResult(event.tradeId, event.success)
+        tradeService.processResult(event.tradeId, event.success, event.reason)
     }
 }
