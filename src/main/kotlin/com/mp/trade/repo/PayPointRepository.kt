@@ -12,5 +12,5 @@ interface PayPointRepository: JpaRepository<PayPoint, UUID> {
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("select p from PayPoint p WHERE p.id = :id")
-    fun findByIdForUpdate(@Param(value = "id") id: UUID): Optional<PayPoint>
+    fun findByIdForUpdate(@Param(value = "id") id: UUID): PayPoint?
 }

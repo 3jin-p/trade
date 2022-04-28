@@ -6,6 +6,7 @@ import com.mp.trade.event.PayPointEvent
 import com.mp.trade.exception.EntityNotFoundException
 import com.mp.trade.repo.PayPointRepository
 import org.springframework.context.ApplicationEventPublisher
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.util.*
@@ -18,7 +19,7 @@ class PayPointService(
 
     @Transactional(readOnly = true)
     fun getPayPoint(payPointId: UUID): PayPointResponse {
-        val payPoint = payPointRepository.findById(payPointId).orElseThrow { EntityNotFoundException() }
+        val payPoint = payPointRepository.findByIdOrNull(payPointId)?: throw EntityNotFoundException()
         return PayPointResponse.from(payPoint)
     }
 
@@ -26,7 +27,7 @@ class PayPointService(
     fun deposit(request: PayPointRequest.DepositRequest) {
         try {
             // ... 결제 처리 로직 (외부 API 일것이니 transaction 제외 -> 트랜잭션 템플릿 사용할까?
-            val payPoint = payPointRepository.findByIdForUpdate(request.payPointId).orElseThrow { EntityNotFoundException() }
+            val payPoint = payPointRepository.findByIdForUpdate(request.payPointId)?: throw EntityNotFoundException()
             payPoint.addPoint(request.amount)
             eventPublisher.publishEvent(PayPointEvent.PayDepositProcessEvent.success(payPoint.id, request.tradeId))
 
@@ -39,7 +40,7 @@ class PayPointService(
     fun withdrawal(request: PayPointRequest.WithdrawalRequest) {
         try {
             // ... 결제 처리 로직 (외부 API 일것이니 transaction 제외 -> 트랜잭션 템플릿 사용할까?
-            val payPoint = payPointRepository.findByIdForUpdate(request.payPointId).orElseThrow { EntityNotFoundException() }
+            val payPoint = payPointRepository.findByIdForUpdate(request.payPointId)?: throw EntityNotFoundException()
             payPoint.minusPoint(request.amount)
             eventPublisher.publishEvent(PayPointEvent.PayDepositProcessEvent.success(payPoint.id, request.tradeId))
 

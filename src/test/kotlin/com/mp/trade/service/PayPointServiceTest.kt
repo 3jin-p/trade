@@ -36,7 +36,7 @@ internal class PayPointServiceTest {
         val payPoint = PayPoint(Point(3500))
         payPoint.id = payPointId
 
-        Mockito.`when`(payPointRepository.findByIdForUpdate(payPointId)).thenReturn(Optional.of(payPoint))
+        Mockito.`when`(payPointRepository.findByIdForUpdate(payPointId)).thenReturn(payPoint)
 
         // given
         val request = PayPointRequest.DepositRequest(tradeId, payPointId, Point(10000))
@@ -79,7 +79,7 @@ internal class PayPointServiceTest {
         val payPoint = PayPoint(Point(15000))
         payPoint.id = payPointId
 
-        Mockito.`when`(payPointRepository.findByIdForUpdate(payPointId)).thenReturn(Optional.of(payPoint))
+        Mockito.`when`(payPointRepository.findByIdForUpdate(payPointId)).thenReturn(payPoint)
 
         // given
         val request = PayPointRequest.WithdrawalRequest(tradeId, payPointId, Point(10000))
@@ -100,7 +100,7 @@ internal class PayPointServiceTest {
         val payPoint = PayPoint(Point(5000))
         payPoint.id = payPointId
 
-        Mockito.`when`(payPointRepository.findByIdForUpdate(payPointId)).thenReturn(Optional.of(payPoint))
+        Mockito.`when`(payPointRepository.findByIdForUpdate(payPointId)).thenReturn(payPoint)
 
         // given
         val request = PayPointRequest.WithdrawalRequest(tradeId, payPointId, Point(20000))

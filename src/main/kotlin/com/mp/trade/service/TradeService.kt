@@ -7,6 +7,7 @@ import com.mp.trade.event.TradeEvent
 import com.mp.trade.exception.EntityNotFoundException
 import com.mp.trade.repo.TradeRepository
 import org.springframework.context.ApplicationEventPublisher
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.util.*
@@ -24,7 +25,7 @@ class TradeService(
     }
 
     fun processResult(tradeId: UUID, result: Boolean, failReason: String?) {
-        val trade = tradeRepository.findById(tradeId).orElseThrow { EntityNotFoundException() }
+        val trade = tradeRepository.findByIdOrNull(tradeId) ?: throw EntityNotFoundException()
 
         if (result) {
             trade.success()
