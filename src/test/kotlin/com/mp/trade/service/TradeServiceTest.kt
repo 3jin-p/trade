@@ -3,6 +3,7 @@ package com.mp.trade.service
 import com.mp.trade.domain.Point
 import com.mp.trade.domain.Trade
 import com.mp.trade.dto.TradeRequest
+import com.mp.trade.event.TradeEvent
 import com.mp.trade.repo.TradeRepository
 import com.mp.trade.support.Constant
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -15,6 +16,7 @@ import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.junit.jupiter.MockitoExtension
+import org.springframework.context.ApplicationEventPublisher
 
 @ExtendWith(value = [MockitoExtension::class])
 internal class TradeServiceTest(
@@ -23,6 +25,8 @@ internal class TradeServiceTest(
     lateinit var tradeService: TradeService
     @Mock
     lateinit var tradeRepository: TradeRepository
+    @Mock
+    lateinit var eventPublisher: ApplicationEventPublisher
 
     @Test
     fun trade() {
@@ -44,5 +48,7 @@ internal class TradeServiceTest(
             { assertEquals(tradeResponse.payPointId, Constant.UUID_FOR_TEST)},
             { assertEquals(tradeResponse.amount, Point(10000)) }
         )
+
+        Mockito.verify(eventPublisher).publishEvent(TradeEvent.TradeOpenEvent(tradeResponse.id, tradeResponse.payPointId, tradeResponse.type, tradeResponse.amount))
     }
 }

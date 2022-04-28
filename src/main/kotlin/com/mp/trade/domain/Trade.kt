@@ -29,10 +29,6 @@ class Trade(
         IN_PROGRESS, SUCCESS, FAIL
     }
 
-    init {
-//        registerEvent(TradeEvent.TradeOpenEvent(id, payPointId, type, amount))
-    }
-
     fun success() {
         status = TradeStatus.SUCCESS
     }
