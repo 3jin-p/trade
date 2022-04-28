@@ -1,6 +1,5 @@
 package com.mp.trade.domain
 
-import com.mp.trade.event.PayPointEvent
 import org.springframework.data.domain.AbstractAggregateRoot
 import java.util.*
 import javax.persistence.Column

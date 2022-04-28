@@ -9,7 +9,7 @@ import com.mp.trade.repo.TradeRepository
 import org.springframework.context.ApplicationEventPublisher
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.util.UUID
+import java.util.*
 
 @Service
 class TradeService(
@@ -19,7 +19,7 @@ class TradeService(
     @Transactional
     fun openTrade(request: TradeRequest): TradeResponse {
         val trade = Trade(request.payPointId, request.type, request.amount)
-        eventPublisher.publishEvent(TradeEvent.TradeOpenEvent(trade.id, trade.payPointId, trade.type, trade.amount))
+        eventPublisher.publishEvent(TradeEvent.TradeOpenEvent.from(trade))
         return TradeResponse.from(tradeRepository.save(trade))
     }
 
@@ -31,5 +31,6 @@ class TradeService(
         } else {
             trade.fail(failReason)
         }
+        eventPublisher.publishEvent(TradeEvent.TradeClosedEvent.from(trade)) // ToDo 받아서 처리결과 클라이언트에 푸시. -> 클라이언트에서 PayPoint 조회.
     }
 }
