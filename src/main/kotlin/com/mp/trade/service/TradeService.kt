@@ -21,7 +21,8 @@ class TradeService(
     fun openTrade(request: TradeRequest): TradeResponse {
         val trade = Trade(request.payPointId, request.type, request.amount)
         eventPublisher.publishEvent(TradeEvent.TradeOpenEvent.from(trade))
-        return TradeResponse.from(tradeRepository.save(trade))
+        tradeRepository.save(trade)
+        return TradeResponse(trade.id, trade.payPointId, trade.type, trade.amount.point)
     }
 
     fun processResult(tradeId: UUID, result: Boolean, failReason: String?) {

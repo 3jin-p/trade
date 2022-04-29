@@ -46,9 +46,9 @@ internal class TradeServiceTest(
             { assertNotNull(tradeResponse.id) },
             { assertEquals(tradeResponse.type, Trade.TradeType.DEPOSIT) },
             { assertEquals(tradeResponse.payPointId, Constant.UUID_FOR_TEST)},
-            { assertEquals(tradeResponse.amount, Point(10000)) }
+            { assertEquals(tradeResponse.amount, 10000) }
         )
 
-        Mockito.verify(eventPublisher).publishEvent(TradeEvent.TradeOpenEvent(tradeResponse.id, tradeResponse.payPointId, tradeResponse.type, tradeResponse.amount))
+        Mockito.verify(eventPublisher).publishEvent(TradeEvent.TradeOpenEvent(tradeResponse.id, tradeResponse.payPointId, tradeResponse.type, Point(tradeResponse.amount)))
     }
 }

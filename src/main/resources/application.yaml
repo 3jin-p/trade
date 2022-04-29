@@ -9,3 +9,12 @@ spring:
       ddl-auto: create
     generate-ddl: true
     show-sql: true
+
+graphql:
+  spqr:
+    http:
+      endpoint: /graphql
+
+    gui:
+      enabled: true
+      endpoint: /schema

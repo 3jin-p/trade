@@ -8,12 +8,6 @@ data class TradeResponse(
     val id: UUID,
     val payPointId: UUID,
     val type: Trade.TradeType,
-    val amount: Point,
+    val amount: Long,
 ) {
-
-    companion object {
-        fun from(entity: Trade): TradeResponse {
-            return TradeResponse(entity.id, entity.payPointId, entity.type, entity.amount)
-        }
-    }
 }

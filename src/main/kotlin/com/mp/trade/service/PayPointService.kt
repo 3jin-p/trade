@@ -20,7 +20,7 @@ class PayPointService(
     @Transactional(readOnly = true)
     fun getPayPoint(payPointId: UUID): PayPointResponse {
         val payPoint = payPointRepository.findByIdOrNull(payPointId)?: throw EntityNotFoundException()
-        return PayPointResponse.from(payPoint)
+        return PayPointResponse(payPoint.id, payPoint.amount.point)
     }
 
     @Transactional
