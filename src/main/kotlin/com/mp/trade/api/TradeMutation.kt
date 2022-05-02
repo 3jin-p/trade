@@ -16,5 +16,4 @@ class TradeMutation(
 ) {
     @GraphQLMutation
     fun openTrade(@GraphQLArgument(name = "request") request: TradeRequest) = tradeService.openTrade(request)
-
 }
