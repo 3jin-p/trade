@@ -6,6 +6,7 @@ import com.mp.trade.domain.Trade
 import com.mp.trade.dto.TradeRequest
 import com.mp.trade.repo.PayPointRepository
 import com.mp.trade.repo.TradeRepository
+import com.mp.trade.service.TradeApplicationService
 import com.mp.trade.service.TradeService
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -19,7 +20,7 @@ import java.util.concurrent.Executors
 @SpringBootTest
 class TradeConcurrencyTest {
     @Autowired
-    lateinit var tradeService: TradeService
+    lateinit var tradeService: TradeApplicationService
     @Autowired
     lateinit var payPointRepository: PayPointRepository
     @Autowired
