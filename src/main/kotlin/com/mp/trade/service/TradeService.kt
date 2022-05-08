@@ -14,11 +14,13 @@ import java.util.*
 
 @Service
 class TradeService(
+    val tradeTuner: TradeTuner,
     val tradeRepository: TradeRepository,
     val eventPublisher: ApplicationEventPublisher
 ) {
     @Transactional
     fun openTrade(request: TradeRequest): TradeResponse {
+        tradeTuner.tune(request.payPointId, 30)
         val trade = Trade(request.payPointId, request.type, request.amount)
         eventPublisher.publishEvent(TradeEvent.TradeOpenEvent.from(trade))
         tradeRepository.save(trade)
