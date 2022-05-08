@@ -17,5 +17,14 @@ services:
       - ./db/initdb.d:/docker-entrypoint-initdb.d
     env_file: ./db/.env
 
+  redis:
+    image: redis:alpine
+    restart: always
+    container_name: redis
+    ports:
+      - 6379:6379
+    networks:
+        - backend
+
 networks:
   backend:
