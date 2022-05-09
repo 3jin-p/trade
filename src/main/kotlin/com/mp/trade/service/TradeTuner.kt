@@ -14,13 +14,13 @@ class TradeTuner(
         const val KEY_NON_EXISTS = -2L;
     }
 
-    fun tune(payPointId: UUID, keyExpireSeconds: Long) {
-        val ttl = redisTemplate.getExpire(payPointId)
+    fun tune(requestId: UUID, keyExpireSeconds: Long) {
+        val ttl = redisTemplate.getExpire(requestId)
         if (ttl != KEY_NON_EXISTS) {
             throw IllegalArgumentException("$ttl 초후 시도해주세요")
         }
-        redisTemplate.opsForValue().set(payPointId, 1)
-        redisTemplate.expire(payPointId, keyExpireSeconds, TimeUnit.SECONDS)
+        redisTemplate.opsForValue().set(requestId, requestId)
+        redisTemplate.expire(requestId, keyExpireSeconds, TimeUnit.SECONDS)
     }
 
 }

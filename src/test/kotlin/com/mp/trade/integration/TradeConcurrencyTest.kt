@@ -7,8 +7,8 @@ import com.mp.trade.dto.TradeRequest
 import com.mp.trade.repo.PayPointRepository
 import com.mp.trade.repo.TradeRepository
 import com.mp.trade.service.TradeApplicationService
-import com.mp.trade.service.TradeService
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -33,6 +33,12 @@ class TradeConcurrencyTest {
         val payPoint = PayPoint()
         payPointRepository.save(payPoint)
         payPointId = payPoint.id
+    }
+
+    @AfterEach
+    fun removeData() {
+        payPointRepository.deleteAll()
+        tradeRepository.deleteAll()
     }
 
     @Test
